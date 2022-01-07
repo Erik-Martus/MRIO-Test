@@ -1,0 +1,39 @@
+$primary: #6d5bd0;
+$bg_parent: #f2f0f9;
+$bg_primary: #ffffff;
+$bg_stripe: #f4f2ff;
+$font_primary: #25213b;
+$font_variant: #6e6893;
+$font_icon: #8b83ba;
+$font_stroke: #c6c2de;
+$font_positive: #007f00;
+$font_negative: #d30000;
+
+@use "normalize.scss";
+
+*,
+*::before,
+*::after {
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $bg_parent;
+  font-family: "Roboto", "Arial", sans-serif;
+  color: $font_primary;
+}
+
+h2 {
+  color: $font_variant;
+  font-size: 0.875rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.container {
+  width: 100%;
+  max-width: 69.75rem;
+  margin: 50px auto 0;
+  padding: 0 0.5rem;
+}

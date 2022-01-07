@@ -20,6 +20,8 @@ npm start
 
 ## Technologies
 
+- MUI
+  - React community library for Material UI
 - React
 - Typescript
 - Node.js
@@ -29,3 +31,5 @@ npm start
 - Jest
 - Webpack
   - Code compilation and bundling
+- ESLint & Prettier
+  - Code formatting and linting
