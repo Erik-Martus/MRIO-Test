@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import * as moment from "moment";
 import {
   Box,
   Table,
@@ -72,9 +73,12 @@ export default function OrderPanel(props: OrderPanelProps) {
       rows.push(
         createData(
           order.order_number.toString(),
-          order.order_details.date,
+          moment.utc(order.order_details.date).format("MMM. D, YYYY"),
           order.status,
-          order.shipping_details.date,
+          moment
+            .utc(order.shipping_details.date)
+            .format("D/MMM/YYYY")
+            .toUpperCase(),
           {
             line1: order.customer.address.line1,
             line2: order.customer.address.line2,
@@ -338,7 +342,7 @@ export default function OrderPanel(props: OrderPanelProps) {
                         </TableCell>
                         <TableCell>
                           <Chip label={row.status} variant="primary" />
-                          <Typography>{row.status_date}</Typography>
+                          <Typography>Updated: {row.status_date}</Typography>
                         </TableCell>
                         <TableCell>
                           <Typography>
