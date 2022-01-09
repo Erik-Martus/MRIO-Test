@@ -20,14 +20,15 @@ $font_negative: #d30000;
 
 body {
   background-color: $bg_parent;
-  font-family: "Roboto", "Arial", sans-serif;
+  font-family: "Inter", "Arial", sans-serif;
+  font-size: 0.875rem;
   color: $font_primary;
 }
 
 h2 {
   color: $font_variant;
   font-size: 0.875rem;
-  letter-spacing: 0.1rem;
+  letter-spacing: 0.0875rem;
   text-transform: uppercase;
 }
 
@@ -36,4 +37,83 @@ h2 {
   max-width: 69.75rem;
   margin: 50px auto 0;
   padding: 0 0.5rem;
+}
+
+.order_total {
+  color: $font_variant;
+
+  &-amount {
+    color: $primary;
+    font-weight: bold;
+  }
+
+  &-amount,
+  &-currency {
+    font-size: 1.125rem;
+  }
+}
+
+.chip {
+  $accent_color: $font_variant;
+  $bg_color: $bg_stripe;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: $accent_color;
+  padding: 0.125rem 0.5rem;
+  background-color: $bg_color;
+  border-radius: 9999px;
+  position: relative;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 9999px;
+    background-color: $accent_color;
+  }
+
+  &-primary {
+    @extend .chip;
+    $accent_color: #4a4aff;
+    $bg_color: #e6e6f2;
+
+    color: $accent_color;
+    background-color: $bg_color;
+
+    &::before {
+      background-color: $accent_color;
+    }
+  }
+
+  &-success {
+    @extend .chip;
+    $accent_color: $font_positive;
+    $bg_color: #cdffcd;
+
+    color: $accent_color;
+    background-color: $bg_color;
+
+    &::before {
+      background-color: $accent_color;
+    }
+  }
+
+  &-error {
+    @extend .chip;
+    $accent_color: $font_negative;
+    $bg_color: #ffe0e0;
+
+    color: $accent_color;
+    background-color: $bg_color;
+
+    &::before {
+      background-color: $accent_color;
+    }
+  }
 }

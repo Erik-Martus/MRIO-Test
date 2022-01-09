@@ -52,20 +52,41 @@ export default function OrderDashboard() {
           borderBottom: 1,
           borderColor: "divider",
           display: "flex",
+          alignItems: "center",
           justifyContent: "space-between",
         }}
       >
         <Tabs
           value={value}
+          sx={{ minHeight: "unset" }}
           onChange={handleTabChange}
           aria-label="Order status tabs"
         >
-          <Tab label="All" {...a11yProps(0)} />
-          <Tab label="Shipped" {...a11yProps(1)} />
+          <Tab
+            label="All"
+            sx={{
+              textTransform: "none",
+              p: 1.25,
+              minWidth: "unset",
+              minHeight: "unset",
+            }}
+            {...a11yProps(0)}
+          />
+          <Tab
+            label="Shipped"
+            sx={{
+              textTransform: "none",
+              p: 1.25,
+              minWidth: "unset",
+              minHeight: "unset",
+            }}
+            {...a11yProps(1)}
+          />
         </Tabs>
-        <span>
-          <p>Total orders: ${total} USD</p>
-        </span>
+        <div className="order_total">
+          Total orders: <span className="order_total-amount">${total}</span>{" "}
+          <span className="order_total-currency">USD</span>
+        </div>
       </Box>
       <TabPanel value={value} index={0}>
         <OrderPanel orders={useAppSelector(selectOrders)} />

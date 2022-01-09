@@ -121,31 +121,31 @@ export default function OrderPanel(props: OrderPanelProps) {
     disablePadding: boolean;
     id: keyof Data;
     label: string;
-    numeric: boolean;
+    align_right: boolean;
   }
 
   const headCells: readonly HeadCell[] = [
     {
       id: "order_number",
-      numeric: true,
+      align_right: false,
       disablePadding: true,
       label: "Order Number & Date",
     },
     {
       id: "status",
-      numeric: false,
+      align_right: false,
       disablePadding: false,
       label: "Shipping Status",
     },
     {
       id: "address",
-      numeric: false,
+      align_right: false,
       disablePadding: false,
       label: "Customer Address",
     },
     {
       id: "value",
-      numeric: true,
+      align_right: true,
       disablePadding: false,
       label: "Order Value",
     },
@@ -179,8 +179,8 @@ export default function OrderPanel(props: OrderPanelProps) {
 
     return (
       <TableHead>
-        <TableRow>
-          <TableCell padding="checkbox">
+        <TableRow sx={{ height: "2.8125rem" }}>
+          <TableCell sx={{ width: "6.5rem", p: "0", pl: "0.5rem" }}>
             <Checkbox
               color="primary"
               indeterminate={numSelected > 0 && numSelected === rowCount}
@@ -191,10 +191,19 @@ export default function OrderPanel(props: OrderPanelProps) {
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              padding={headCell.disablePadding ? "none" : "normal"}
+              padding="none"
+              align={headCell.align_right ? "right" : "left"}
               sortDirection={orderBy === headCell.id ? order : false}
             >
               <TableSortLabel
+                sx={{
+                  fontSize: "0.75rem",
+                  fontWeight: "600",
+                  lineHeight: "125%",
+                  letterSpacing: "0.0375rem",
+                  textTransform: "uppercase",
+                  color: "#6E6893",
+                }}
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
@@ -210,7 +219,10 @@ export default function OrderPanel(props: OrderPanelProps) {
               </TableSortLabel>
             </TableCell>
           ))}
-          <TableCell>
+          <TableCell
+            align="right"
+            sx={{ width: "9.375rem", p: "0", pr: "0.75rem" }}
+          >
             <IconButton>
               <MoreVertIcon />
             </IconButton>
@@ -313,6 +325,7 @@ export default function OrderPanel(props: OrderPanelProps) {
                     return (
                       <TableRow
                         hover
+                        sx={{ backgroundColor: "#FFF", height: "3.75rem" }}
                         onClick={(event) =>
                           handleClick(event, row.order_number)
                         }
@@ -322,7 +335,7 @@ export default function OrderPanel(props: OrderPanelProps) {
                         key={row.order_number}
                         selected={isItemSelected}
                       >
-                        <TableCell padding="checkbox">
+                        <TableCell sx={{ p: "0", pl: "0.5rem" }}>
                           <Checkbox
                             color="primary"
                             checked={isItemSelected}
@@ -337,15 +350,36 @@ export default function OrderPanel(props: OrderPanelProps) {
                           scope="row"
                           padding="none"
                         >
-                          <Typography># {row.order_number}</Typography>
-                          <Typography>Ordered: {row.order_date}</Typography>
+                          <Typography
+                            sx={{ fontSize: "0.875rem", fontWeight: "500" }}
+                          >
+                            # {row.order_number}
+                          </Typography>
+                          <Typography
+                            sx={{ fontSize: "0.875rem", color: "#6e6893" }}
+                          >
+                            Ordered: {row.order_date}
+                          </Typography>
                         </TableCell>
-                        <TableCell>
-                          <Chip label={row.status} variant="primary" />
-                          <Typography>Updated: {row.status_date}</Typography>
+                        <TableCell padding="none">
+                          <Chip
+                            label={row.status}
+                            variant={
+                              row.status === "open"
+                                ? "success"
+                                : row.status === "cancelled"
+                                ? "error"
+                                : "primary"
+                            }
+                          />
+                          <Typography
+                            sx={{ fontSize: "0.75rem", color: "#6e6893" }}
+                          >
+                            Updated: {row.status_date}
+                          </Typography>
                         </TableCell>
-                        <TableCell>
-                          <Typography>
+                        <TableCell padding="none">
+                          <Typography sx={{ fontSize: "0.75rem" }}>
                             {`${row.address.line1} ${
                               row.address.line2 ? "," + row.address.line2 : ""
                             }`}
@@ -353,11 +387,19 @@ export default function OrderPanel(props: OrderPanelProps) {
                             {`${row.address.city}, ${row.address.state} ${row.address.zip}`}
                           </Typography>
                         </TableCell>
-                        <TableCell align="right">
-                          <Typography>{row.value}</Typography>
-                          <Typography>USD</Typography>
+                        <TableCell align="right" padding="none">
+                          <Typography
+                            sx={{ fontSize: "0.875rem", fontWeight: "500" }}
+                          >
+                            ${row.value}
+                          </Typography>
+                          <Typography
+                            sx={{ fontSize: "0.75rem", color: "#6e6893" }}
+                          >
+                            USD
+                          </Typography>
                         </TableCell>
-                        <TableCell>
+                        <TableCell align="right" sx={{ p: "0", pr: "0.75rem" }}>
                           <IconButton>
                             <MoreVertIcon />
                           </IconButton>
@@ -369,6 +411,7 @@ export default function OrderPanel(props: OrderPanelProps) {
             </Table>
           </TableContainer>
           <TablePagination
+            sx={{ color: "#6e6893" }}
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
             count={rows.length}
