@@ -73,8 +73,6 @@ export default function OrderPanel(props: OrderPanelProps) {
   const rows: object[] = [];
   function createRows() {
     orders.forEach((order: PurchaseOrder) => {
-      console.log(Object.values(order.customer.address).join(" "));
-
       rows.push(
         createData(
           order.order_number.toString(),
