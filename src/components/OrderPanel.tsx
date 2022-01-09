@@ -40,6 +40,7 @@ export default function OrderPanel(props: OrderPanelProps) {
       state: string;
       zip: string;
     };
+    address_full: string;
     value: number;
   }
 
@@ -55,6 +56,7 @@ export default function OrderPanel(props: OrderPanelProps) {
       state: string;
       zip: string;
     },
+    address_full: string,
     value: number
   ): Data {
     return {
@@ -63,6 +65,7 @@ export default function OrderPanel(props: OrderPanelProps) {
       status,
       status_date,
       address,
+      address_full,
       value,
     };
   }
@@ -70,6 +73,8 @@ export default function OrderPanel(props: OrderPanelProps) {
   const rows: object[] = [];
   function createRows() {
     orders.forEach((order: PurchaseOrder) => {
+      console.log(Object.values(order.customer.address).join(" "));
+
       rows.push(
         createData(
           order.order_number.toString(),
@@ -86,6 +91,7 @@ export default function OrderPanel(props: OrderPanelProps) {
             state: order.customer.address.state,
             zip: order.customer.address.zip,
           },
+          Object.values(order.customer.address).join(" "), // Address combined to string for purpose of sorting
           order.order_details.value
         )
       );
@@ -138,7 +144,7 @@ export default function OrderPanel(props: OrderPanelProps) {
       label: "Shipping Status",
     },
     {
-      id: "address",
+      id: "address_full",
       align_right: false,
       disablePadding: false,
       label: "Customer Address",
@@ -172,6 +178,7 @@ export default function OrderPanel(props: OrderPanelProps) {
       rowCount,
       onRequestSort,
     } = props;
+
     const createSortHandler =
       (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
