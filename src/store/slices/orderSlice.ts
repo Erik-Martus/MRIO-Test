@@ -1,28 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-
-interface Order {
-  order_number: number;
-  customer: {
-    first_name: string;
-    last_name: string;
-    address: {
-      line1: string;
-      line2: string;
-      city: string;
-      state: string;
-      zip: string;
-    };
-  };
-  order_details: {
-    value: number;
-    date: string;
-  };
-  shipping_details: {
-    date: string;
-  };
-  status: string;
-}
+import type { PurchaseOrder } from "../../types";
 
 const initialState: object[] = [
   {
@@ -78,7 +56,7 @@ const initialState: object[] = [
         line1: "999 South Bend Road",
         line2: "",
         city: "Charleston",
-        state: "MSC",
+        state: "SC",
         zip: "38672",
       },
     },
@@ -96,13 +74,19 @@ const initialState: object[] = [
 export const orderSlice = createSlice({
   name: "orders",
   initialState,
-  reducers: {},
+  reducers: {}, // Reducer logic for interacting with order items.
 });
 
+// Get total value of all orders.
 export const selectTotal = (state: RootState) => {
   let total = 0.0;
-  state.orders.forEach((order: Order) => (total += order.order_details.value));
+  state.orders.forEach(
+    (order: PurchaseOrder) => (total += order.order_details.value)
+  );
   return total;
 };
+export const selectOrders = (state: RootState) => state.orders;
+export const selectShipped = (state: RootState) =>
+  state.orders.filter((order: PurchaseOrder) => order.status === "shipped");
 
 export default orderSlice.reducer;
