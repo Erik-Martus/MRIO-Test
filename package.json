@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --open",
+    "build": "webpack --env production",
     "test": "jest"
   },
   "repository": {
