@@ -76,10 +76,10 @@ export default function OrderPanel(props: OrderPanelProps) {
       rows.push(
         createData(
           order.order_number.toString(),
-          moment.utc(order.order_details.date).format("MMM. D, YYYY"),
+          moment.utc(new Date(order.order_details.date)).format("MMM. D, YYYY"),
           order.status,
           moment
-            .utc(order.shipping_details.date)
+            .utc(new Date(order.shipping_details.date))
             .format("D/MMM/YYYY")
             .toUpperCase(),
           {
@@ -123,32 +123,37 @@ export default function OrderPanel(props: OrderPanelProps) {
 
   interface HeadCell {
     disablePadding: boolean;
-    id: keyof Data;
+    id: string;
+    order_key: keyof Data;
     label: string;
     align_right: boolean;
   }
 
   const headCells: readonly HeadCell[] = [
     {
-      id: "order_number",
+      id: "col_orderNumber",
+      order_key: "order_number",
       align_right: false,
       disablePadding: true,
       label: "Order Number & Date",
     },
     {
-      id: "status",
+      id: "col_status",
+      order_key: "status",
       align_right: false,
       disablePadding: false,
       label: "Shipping Status",
     },
     {
-      id: "address_full",
+      id: "col_address",
+      order_key: "address_full",
       align_right: false,
       disablePadding: false,
       label: "Customer Address",
     },
     {
-      id: "value",
+      id: "col_value",
+      order_key: "value",
       align_right: true,
       disablePadding: false,
       label: "Order Value",
@@ -198,7 +203,7 @@ export default function OrderPanel(props: OrderPanelProps) {
               key={headCell.id}
               padding="none"
               align={headCell.align_right ? "right" : "left"}
-              sortDirection={orderBy === headCell.id ? order : false}
+              sortDirection={orderBy === headCell.order_key ? order : false}
             >
               <TableSortLabel
                 sx={{
@@ -209,9 +214,10 @@ export default function OrderPanel(props: OrderPanelProps) {
                   textTransform: "uppercase",
                   color: "#6E6893",
                 }}
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
+                active={orderBy === headCell.order_key}
+                direction={orderBy === headCell.order_key ? order : "asc"}
+                onClick={createSortHandler(headCell.order_key)}
+                data-testid={headCell.id}
               >
                 {headCell.label}
                 {orderBy === headCell.id ? (
@@ -318,7 +324,7 @@ export default function OrderPanel(props: OrderPanelProps) {
                 onRequestSort={handleRequestSort}
                 rowCount={rows.length}
               />
-              <TableBody>
+              <TableBody data-testid="order_tableBody">
                 {rows
                   .slice()
                   .sort(getComparator(order, orderBy))
@@ -339,6 +345,7 @@ export default function OrderPanel(props: OrderPanelProps) {
                         tabIndex={-1}
                         key={row.order_number}
                         selected={isItemSelected}
+                        data-testid={`order_${row.order_number}`}
                       >
                         <TableCell sx={{ p: "0", pl: "0.5rem" }}>
                           <Checkbox
